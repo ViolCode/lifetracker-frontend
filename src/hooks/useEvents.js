@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
-import { getEvents } from "../api/events.js";
+import { useEffect, useState, useCallback } from "react";
+import { getEvents } from "../api/events";
 
 export function useEvents() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function load() {
-            try {
-                const data = await getEvents();
-                setEvents(data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
+    const load = useCallback(async () => {
+        try {
+            setLoading(true);
+            const data = await getEvents();
+            setEvents(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
-
-        load();
     }, []);
+
+    useEffect(() => {
+        load();
+    }, [load]);
 
     return {
         events,
         loading,
+        reload: load,
     };
 }

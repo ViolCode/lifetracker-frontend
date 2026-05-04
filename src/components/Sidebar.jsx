@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
     return (
@@ -7,12 +8,15 @@ export default function Sidebar() {
                 <h1 className="text-xl font-semibold mb-8">Life Tracker</h1>
 
                 <nav className="flex flex-col gap-2">
-                    <button className="text-left px-3 py-2 rounded-lg bg-white shadow-sm font-medium">
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            isActive ? "text-teal-600 font-semibold" : "text-gray-700"
+                        }
+                    >
                         Schedule
-                    </button>
-                    <button className="text-left px-3 py-2 rounded-lg text-gray-600 hover:bg-white/60">
-                        Expenses
-                    </button>
+                    </NavLink>
+                    <NavLink to="/expenses">Expenses</NavLink>
                 </nav>
             </div>
 

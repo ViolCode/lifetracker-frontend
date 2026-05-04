@@ -1,20 +1,18 @@
-import React from "react";
 import EventCard from "./EventCard";
 
-export default function EventSection({ title, events, onEventClick }) {
+export default function EventSection({ title, events, onEventClick, onDeleted }) {
     return (
         <div className="mb-6">
             {title && <h3 className="text-xl font-semibold mb-3">{title}</h3>}
 
             <div className="space-y-3">
                 {events.map((e) => (
-                    <div
+                    <EventCard
                         key={e.id}
+                        event={e}
                         onClick={() => onEventClick(e)}
-                        className="cursor-pointer"
-                    >
-                        <EventCard event={e} />
-                    </div>
+                        onDeleted={onDeleted}
+                    />
                 ))}
             </div>
         </div>

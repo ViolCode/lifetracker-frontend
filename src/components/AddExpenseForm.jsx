@@ -6,6 +6,11 @@ export default function AddExpenseForm({ eventId, onCreated }) {
     const [description, setDescription] = useState("");
 
     const handleSubmit = async () => {
+        if (!amount || isNaN(amount)) {
+            alert("Enter valid amount");
+            return;
+        }
+
         try {
             await createExpense({
                 eventId,

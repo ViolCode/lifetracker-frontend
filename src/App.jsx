@@ -1,14 +1,15 @@
-import React from "react";
-import Sidebar from "./components/Sidebar";
-import Schedule from "./pages/SchedulePage";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./layout/Layout";
+import SchedulePage from "./pages/SchedulePage";
+import ExpensesPage from "./pages/ExpensesPage";
 
 export default function App() {
     return (
-        <div className="flex">
-            <Sidebar />
-            <div className="flex-1 bg-white min-h-screen">
-                <Schedule />
-            </div>
-        </div>
+        <Routes>
+            <Route element={<Layout />}>
+                <Route path="/" element={<SchedulePage />} />
+                <Route path="/expenses" element={<ExpensesPage />} />
+            </Route>
+        </Routes>
     );
 }

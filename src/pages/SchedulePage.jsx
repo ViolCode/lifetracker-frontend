@@ -11,21 +11,51 @@ export default function SchedulePage() {
     const [selectedEvent, setSelectedEvent] = useState(null);
 
     const loadEvents = async () => {
-        const data = await getEvents();
-        setEvents(data);
+        try {
+            const data = await getEvents();
+            setEvents(data.events || data);
+        } catch (e) {
+            console.error("Failed to load events", e);
+        }
+    };
+
+    const removeEventFromState = (id) => {
+        setEvents(prev => prev.filter(e => e.id !== id));
     };
 
     useEffect(() => {
         loadEvents();
     }, []);
 
-    const handleCreated = async () => {
+    const handleSaved = async (event) => {
         await loadEvents();
+
+        setSelectedEvent(event);
+        setShowModal(true);
+    };
+
+    const handleEdit = (event) => {
+        setSelectedEvent(event);
+        setShowModal(true);
     };
 
     return (
         <div className="p-6 max-w-7xl mx-auto">
-            <Header />
+
+            <Header
+                title="Schedule"
+                action={
+                    <button
+                        onClick={() => {
+                            setSelectedEvent(null);
+                            setShowModal(true);
+                        }}
+                        className="px-4 py-2 rounded-lg bg-teal-500 text-white"
+                    >
+                        + Add Event
+                    </button>
+                }
+            />
 
             {showModal && (
                 <AddEventModal
@@ -34,50 +64,29 @@ export default function SchedulePage() {
                         setShowModal(false);
                         setSelectedEvent(null);
                     }}
-                    onCreated={handleCreated}
+                    onSaved={handleSaved}
                 />
             )}
 
-            {/* Header */}
-            <div className="flex items-center justify-between mt-6 mb-4">
-                <h2 className="text-xl font-semibold">Today</h2>
-
-                <button
-                    onClick={() => {
-                        setSelectedEvent(null);
-                        setShowModal(true);
-                    }}
-                    className="px-4 py-2 rounded-lg bg-teal-500 text-white"
-                >
-                    + Add Event
-                </button>
-            </div>
-
             <EventSection
-                title=""
+                title="Today"
                 events={groupedEvents(events).today}
-                onEventClick={(e) => {
-                    setSelectedEvent(e);
-                    setShowModal(true);
-                }}
+                onEventClick={handleEdit}
+                onEventDeleted={removeEventFromState}
             />
 
             <EventSection
                 title="Tomorrow"
                 events={groupedEvents(events).tomorrow}
-                onEventClick={(e) => {
-                    setSelectedEvent(e);
-                    setShowModal(true);
-                }}
+                onEventClick={handleEdit}
+                onEventDeleted={removeEventFromState}
             />
 
             <EventSection
                 title="This Week"
                 events={groupedEvents(events).week}
-                onEventClick={(e) => {
-                    setSelectedEvent(e);
-                    setShowModal(true);
-                }}
+                onEventClick={handleEdit}
+                onEventDeleted={removeEventFromState}
             />
         </div>
     );

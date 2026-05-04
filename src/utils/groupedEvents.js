@@ -16,7 +16,7 @@ export function groupedEvents(events) {
     startOfNextWeek.setDate(startOfToday.getDate() + 7);
 
     events.forEach(event => {
-        const date = new Date(event.plannedDate || event.planned_date);
+        const date = new Date(event.plannedDate);
 
         const eventDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
@@ -25,8 +25,8 @@ export function groupedEvents(events) {
         } else if (eventDay.getTime() === startOfTomorrow.getTime()) {
             tomorrow.push(event);
         } else if (
-            eventDay.getTime() >= startOfDayAfterTomorrow.getTime() &&
-            eventDay.getTime() <= startOfNextWeek.getTime()
+            eventDay >= startOfDayAfterTomorrow &&
+            eventDay <= startOfNextWeek
         ) {
             week.push(event);
         }
