@@ -1,27 +1,13 @@
-const API_URL = "http://localhost:8080/expenses";
+import { api } from "./client";
 
-export async function getExpenses(eventId) {
-    const res = await fetch(`${API_URL}/event/${eventId}`);
-    return res.json();
-}
+export const getExpenses = (eventId) =>
+    api(`/expenses/event/${eventId}`);
 
-export async function createExpense(data) {
-    const res = await fetch(API_URL, {
+export const getAllExpenses = () =>
+    api("/expenses");
+
+export const createExpense = (data) =>
+    api("/expenses", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
         body: JSON.stringify(data),
     });
-
-    if (!res.ok) {
-        throw new Error(await res.text());
-    }
-
-    return res.json();
-}
-
-export async function getAllExpenses() {
-    const res = await fetch(`${API_URL}`);
-    return res.json();
-}

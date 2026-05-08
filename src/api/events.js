@@ -1,20 +1,21 @@
-import { request } from "./client";
+import { api } from "./client";
 
-export const getEvents = () => request("/events");
+export const getEvents = () =>
+    api("/events");
 
 export const createEvent = (data) =>
-    request("/events", {
+    api("/events", {
         method: "POST",
         body: JSON.stringify(data),
     });
 
 export const updateEvent = (id, data) =>
-    request(`/events/${id}`, {
+    api(`/events/${id}`, {
         method: "PUT",
         body: JSON.stringify(data),
     });
 
 export const deleteEvent = (id) =>
-    request(`/events/${id}`, {
+    api(`/events/${id}`, {
         method: "DELETE",
     });

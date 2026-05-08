@@ -1,5 +1,5 @@
 import ExpenseList from "./ExpenseList";
-import AddExpenseForm from "./AddExpenseForm";
+import ExpenseForm from "./ExpenseForm.jsx";
 
 export default function ExpenseSection({ expenses, eventId, onCreated, onEdit }) {
     return (
@@ -11,7 +11,7 @@ export default function ExpenseSection({ expenses, eventId, onCreated, onEdit })
                 onEdit={onEdit}
             />
 
-            <AddExpenseForm
+            <ExpenseForm
                 eventId={eventId}
                 onCreated={onCreated}
             />

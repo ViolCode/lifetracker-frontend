@@ -1,43 +1,36 @@
+import { useState } from "react";
+
 import Header from "../components/Header";
 import EventSection from "../components/EventSection";
-import AddEventModal from "../components/AddEventModal";
-import { useState, useEffect } from "react";
-import { getEvents } from "../api/events";
+import EventModal from "../components/EventModal";
+
 import { groupedEvents } from "../utils/groupedEvents";
+import { useEvents } from "../hooks/useEvents";
 
 export default function SchedulePage() {
-    const [events, setEvents] = useState([]);
+
+    const {
+        events,
+        loadEvents,
+        removeEvent,
+    } = useEvents();
+
     const [showModal, setShowModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
 
-    const loadEvents = async () => {
-        try {
-            const data = await getEvents();
-            setEvents(data.events || data);
-        } catch (e) {
-            console.error("Failed to load events", e);
-        }
-    };
+    const grouped = groupedEvents(events);
 
-    const removeEventFromState = (id) => {
-        setEvents(prev => prev.filter(e => e.id !== id));
-    };
-
-    useEffect(() => {
-        loadEvents();
-    }, []);
-
-    const handleSaved = async (event) => {
+    async function handleSaved(savedEvent) {
         await loadEvents();
 
-        setSelectedEvent(event);
-        setShowModal(true);
-    };
+        setShowModal(false);
+        setSelectedEvent(null);
+    }
 
-    const handleEdit = (event) => {
+    function handleEdit(event) {
         setSelectedEvent(event);
         setShowModal(true);
-    };
+    }
 
     return (
         <div className="p-6 max-w-7xl mx-auto">
@@ -58,7 +51,7 @@ export default function SchedulePage() {
             />
 
             {showModal && (
-                <AddEventModal
+                <EventModal
                     existing={selectedEvent}
                     onClose={() => {
                         setShowModal(false);
@@ -70,24 +63,25 @@ export default function SchedulePage() {
 
             <EventSection
                 title="Today"
-                events={groupedEvents(events).today}
+                events={grouped.today}
                 onEventClick={handleEdit}
-                onEventDeleted={removeEventFromState}
+                onDeleted={removeEvent}
             />
 
             <EventSection
                 title="Tomorrow"
-                events={groupedEvents(events).tomorrow}
+                events={grouped.tomorrow}
                 onEventClick={handleEdit}
-                onEventDeleted={removeEventFromState}
+                onDeleted={removeEvent}
             />
 
             <EventSection
                 title="This Week"
-                events={groupedEvents(events).week}
+                events={grouped.week}
                 onEventClick={handleEdit}
-                onEventDeleted={removeEventFromState}
+                onDeleted={removeEvent}
             />
+
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createExpense } from "../api/expenses";
 
-export default function AddExpenseForm({ eventId, onCreated }) {
+export default function ExpenseForm({ eventId, onCreated }) {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
 
