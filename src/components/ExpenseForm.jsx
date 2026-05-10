@@ -1,54 +1,55 @@
 import { useState } from "react";
-import { createExpense } from "../api/expenses";
 
-export default function ExpenseForm({ eventId, onCreated }) {
+export default function ExpenseForm({onSubmit, loading })
+{
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
 
-    const handleSubmit = async () => {
+    function handleSubmit() {
+
         if (!amount || isNaN(amount)) {
-            alert("Enter valid amount");
             return;
         }
 
-        try {
-            await createExpense({
-                eventId,
-                amount: parseFloat(amount),
-                description,
-            });
+        onSubmit({
+            amount: parseFloat(amount),
+            description,
+        });
 
-            setAmount("");
-            setDescription("");
-            onCreated();
-        } catch (e) {
-            alert(e.message);
-        }
-    };
+        setAmount("");
+        setDescription("");
+    }
 
     return (
         <div className="mt-4 border-t pt-4">
-            <h4 className="font-semibold mb-2">Add Expense</h4>
+            <h4 className="font-semibold mb-2">
+                Add Expense
+            </h4>
 
             <input
                 placeholder="Amount €"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) =>
+                    setAmount(e.target.value)
+                }
                 className="input mb-2"
             />
 
             <input
                 placeholder="Description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) =>
+                    setDescription(e.target.value)
+                }
                 className="input mb-2"
             />
 
             <button
                 onClick={handleSubmit}
-                className="bg-emerald-500 text-white px-3 py-1 rounded"
+                disabled={loading}
+                className="bg-emerald-500 text-white px-3 py-1 rounded disabled:opacity-50"
             >
-                Add
+                {loading ? "Adding..." : "Add"}
             </button>
         </div>
     );

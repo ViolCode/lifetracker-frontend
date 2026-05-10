@@ -1,19 +1,22 @@
 import ExpenseList from "./ExpenseList";
-import ExpenseForm from "./ExpenseForm.jsx";
+import ExpenseForm from "./ExpenseForm";
 
-export default function ExpenseSection({ expenses, eventId, onCreated, onEdit }) {
+export default function ExpenseSection({
+                                           expenses,
+                                           onDeleted,
+                                           onCreate,
+                                           loading,
+                                       }) {
     return (
-        <div className="mt-6">
-            <h3 className="font-semibold mb-2">Expenses</h3>
-
+        <div className="space-y-4">
             <ExpenseList
                 expenses={expenses}
-                onEdit={onEdit}
+                onDeleted={onDeleted}
             />
 
             <ExpenseForm
-                eventId={eventId}
-                onCreated={onCreated}
+                onSubmit={onCreate}
+                loading={loading}
             />
         </div>
     );

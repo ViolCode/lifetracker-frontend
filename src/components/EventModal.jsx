@@ -1,13 +1,8 @@
 import { createEvent, updateEvent } from "../api/events";
-import { getExpenses } from "../api/expenses";
-
-import { useEffect, useState } from "react";
-
 import Modal from "./Modal";
 import EventForm from "./EventForm";
-import ExpenseSection from "./ExpenseSection";
-
 import { useEventForm } from "../hooks/useEventForm";
+import toast from "react-hot-toast";
 
 export default function EventModal({existing, onClose, onSaved}) {
 
@@ -16,23 +11,10 @@ export default function EventModal({existing, onClose, onSaved}) {
         handleChange,
     } = useEventForm(existing);
 
-    const [expenses, setExpenses] = useState([]);
-
-    useEffect(() => {
-        if (!existing?.id) return;
-
-        loadExpenses();
-    }, [existing]);
-
-    async function loadExpenses() {
-        const data = await getExpenses(existing.id);
-        setExpenses(data);
-    }
-
     async function handleSubmit() {
 
         if (!form.title.trim()) {
-            alert("Title required");
+            toast.error("Title is required");
             return;
         }
 
@@ -70,14 +52,6 @@ export default function EventModal({existing, onClose, onSaved}) {
                 form={form}
                 onChange={handleChange}
             />
-
-            {existing?.id && (
-                <ExpenseSection
-                    eventId={existing.id}
-                    expenses={expenses}
-                    onCreated={loadExpenses}
-                />
-            )}
 
             <div className="flex justify-end gap-2 mt-4">
                 <button onClick={onClose}>

@@ -16,7 +16,22 @@ export default function Sidebar() {
                     >
                         Schedule
                     </NavLink>
-                    <NavLink to="/expenses">Expenses</NavLink>
+                    <NavLink
+                    to="/expenses"
+                    className={({ isActive }) =>
+                    isActive ? "text-teal-600 font-semibold" : "text-gray-700"
+                    }
+                    >
+                        Expenses List
+                    </NavLink>
+                    <NavLink
+                        to="/history"
+                        className={({ isActive }) =>
+                            isActive ? "text-teal-600 font-semibold" : "text-gray-700"
+                        }
+                    >
+                        Event History
+                    </NavLink>
                 </nav>
             </div>
 

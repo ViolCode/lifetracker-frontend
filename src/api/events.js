@@ -19,3 +19,6 @@ export const deleteEvent = (id) =>
     api(`/events/${id}`, {
         method: "DELETE",
     });
+
+export const getEventHistory = () =>
+    api("/events/history");
