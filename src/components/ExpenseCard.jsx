@@ -22,20 +22,8 @@ export default function ExpenseCard({
     }
 
     return (
-        <div
-            className="
-                bg-gray-50
-                border
-                rounded-xl
-                p-3
-                flex
-                justify-between
-                items-start
-            "
-        >
-
+        <div className="bg-gray-50 border rounded-xl p-3 flex justify-between items-start">
             <div>
-
                 <div className="font-semibold">
                     €{expense.amount}
                 </div>
@@ -43,7 +31,6 @@ export default function ExpenseCard({
                 <div className="text-sm text-gray-600 mt-1">
                     {expense.description || "No description"}
                 </div>
-
             </div>
 
             <div className="text-right">
@@ -54,17 +41,11 @@ export default function ExpenseCard({
 
                 <button
                     onClick={handleDelete}
-                    className="
-                        text-xs
-                        text-red-500
-                        mt-2
-                    "
-                >
+                    className="text-xs text-red-500 mt-2">
                     Delete
                 </button>
 
             </div>
-
         </div>
     );
 }

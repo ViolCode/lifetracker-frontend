@@ -65,7 +65,6 @@ export default function EventModal({existing, onClose, onSaved}) {
                     Save
                 </button>
             </div>
-
         </Modal>
     );
 }

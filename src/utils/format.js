@@ -77,19 +77,3 @@ export function getWeeklyPlanningLabel( weekOffset = 0 ) {
 
     return `${formatShortDate(start)} - ${formatShortDate(end)}`;
 }
-
-export function formatScheduleDate(date) {
-
-    if (!date) {
-        return "";
-    }
-
-    return new Date(date).toLocaleDateString(
-        "en-GB",
-        {
-            day: "2-digit",
-            month: "2-digit",
-            year: "2-digit",
-        }
-    );
-}

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-
 import Header from "../components/Header";
-
 import { getAllExpenses } from "../api/expenses";
-
 import { formatDate } from "../utils/format";
 import { calculateMonthlyExpenses, calculateWeeklyExpenses,} from "../utils/expenseStats";
 
@@ -49,14 +46,7 @@ export default function ExpensesPage() {
     return (
         <div className="p-6 max-w-5xl mx-auto h-full flex flex-col">
 
-            <div
-                className="
-        flex
-        justify-between
-        items-start
-        mb-8
-    "
-            >
+            <div className="flex justify-between items-start mb-8">
 
                 <Header title="Expenses" />
 
@@ -91,15 +81,7 @@ export default function ExpensesPage() {
                         onChange={(e) =>
                             setSortBy(e.target.value)
                         }
-                        className="
-                border
-                rounded-lg
-                px-3
-                py-2
-                text-sm
-                bg-white
-            "
-                    >
+                        className="border rounded-lg px-3 py-2 text-sm bg-white">
 
                         <option value="new">
                             Newest

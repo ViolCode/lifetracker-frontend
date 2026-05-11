@@ -14,25 +14,14 @@ export default function EventSection({
         <div className="mb-8">
 
             <div
-                className="
-                    flex
-                    items-center
-                    gap-3
-                    mb-4
-                "
-            >
+                className="flex items-center gap-3 mb-4">
 
                 <h2 className="text-2xl font-semibold">
                     {title}
                 </h2>
 
                 {subtitle && (
-                    <span
-                        className="
-                            text-gray-500
-                            text-sm
-                        "
-                    >
+                    <span className="text-gray-500 text-sm">
                         {subtitle}
                     </span>
                 )}
@@ -51,9 +40,7 @@ export default function EventSection({
                         showDate={showEventDates}
                     />
                 ))}
-
             </div>
-
         </div>
     );
 }
