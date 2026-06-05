@@ -5,30 +5,27 @@ export async function api(url, options = {}) {
     const response = await fetch(
         `${BASE_URL}${url}`,
         {
+            credentials: "include",
+
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type":
+                    "application/json",
                 ...options.headers,
             },
+
             ...options,
         }
     );
 
     if (!response.ok) {
-
         let message = "Request failed";
 
         try {
-
-            const errorData =
-                await response.json();
-
-            message =
-                errorData.error || message;
-
+            const errorData = await response.json();
+            message =errorData.error || message;
         } catch {
             //
         }
-
         throw new Error(message);
     }
 
