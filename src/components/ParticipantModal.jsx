@@ -213,13 +213,6 @@ export default function ParticipantModal({ event, onClose, onUpdate }) {
                                 </div>
 
                                 <div className="flex items-center gap-2 flex-shrink-0">
-                                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                                        p.isConfirmed
-                                            ? "bg-green-100 text-green-700"
-                                            : "bg-amber-100 text-amber-700"
-                                    }`}>
-                                        {p.isConfirmed ? "Confirmed" : "Pending"}
-                                    </span>
                                     <button
                                         onClick={() => handleRemove(p)}
                                         disabled={removingId === p.userId}
