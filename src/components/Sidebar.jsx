@@ -1,14 +1,19 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { api } from "../api/client";
 
 export default function Sidebar() {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    function handleLogout() {
-
-        localStorage.removeItem("user");
-
-        window.location.href = "/login";
+    async function handleLogout() {
+        try {
+            await api("/auth/logout", { method: "POST" });
+        } catch (error) {
+            // Ignore logout errors
+        } finally {
+            localStorage.removeItem("user");
+            window.location.href = "/login";
+        }
     }
 
     return (
@@ -17,7 +22,7 @@ export default function Sidebar() {
                 <h1 className="text-xl font-semibold mb-8">Life Tracker</h1>
 
                 <nav className="flex flex-col gap-2">
-                    <NavLink to="/"
+                    <NavLink to="/schedule"
                         className={({ isActive }) =>
                             isActive ? "text-teal-600 font-semibold" : "text-gray-700"
                         }>

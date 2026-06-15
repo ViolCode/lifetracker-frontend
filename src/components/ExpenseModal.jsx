@@ -1,7 +1,7 @@
 import Modal from "./Modal";
 import ExpenseSection from "./ExpenseSection";
 
-export default function ExpenseModal({event, expenses, loading, onClose, onReload, onCreate,})
+export default function ExpenseModal({event, expenses, loading, onClose, onReload, onCreate})
 {
     return (
         <Modal onClose={onClose}>

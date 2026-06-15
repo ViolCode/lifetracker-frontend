@@ -1,5 +1,6 @@
 import { formatDate } from "../utils/format";
 import { deleteExpense } from "../api/expenses";
+import toast from "react-hot-toast";
 
 export default function ExpenseCard({
                                         expense,
@@ -16,9 +17,12 @@ export default function ExpenseCard({
             return;
         }
 
-        await deleteExpense(expense.id);
-
-        onDeleted();
+        try {
+            await deleteExpense(expense.id);
+            onDeleted();
+        } catch (e) {
+            toast.error(e.message || "Failed to delete expense");
+        }
     }
 
     return (

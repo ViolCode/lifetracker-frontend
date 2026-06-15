@@ -4,7 +4,6 @@ export default function ExpenseList({
                                         expenses,
                                         onDeleted,
                                     }) {
-
     if (expenses.length === 0) {
         return (
             <p className="text-sm text-gray-500">
@@ -15,7 +14,6 @@ export default function ExpenseList({
 
     return (
         <div className="space-y-2">
-
             {expenses.map(expense => (
                 <ExpenseCard
                     key={expense.id}
@@ -23,7 +21,6 @@ export default function ExpenseList({
                     onDeleted={onDeleted}
                 />
             ))}
-
         </div>
     );
 }
