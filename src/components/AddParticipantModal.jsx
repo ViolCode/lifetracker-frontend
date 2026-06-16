@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
-import { searchUsers, inviteParticipant } from "../api/events";
+import { searchUsers, inviteParticipant } from "../api/participants";
 import toast from "react-hot-toast";
 
 export default function AddParticipantModal({ event, onClose, onParticipantAdded }) {

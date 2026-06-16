@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getParticipants, inviteParticipant, removeParticipant, searchUsers } from "../api/events";
+import { getParticipants, inviteParticipant, removeParticipant, searchUsers } from "../api/participants";
 import toast from "react-hot-toast";
 
 export function useParticipants(eventId) {

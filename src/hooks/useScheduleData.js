@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getEvents, deleteEvent } from "../api/events";
-import { getParticipants } from "../api/events";
+import { getParticipants } from "../api/participants";
 
 export function useScheduleData() {
     const [events, setEvents] = useState([]);
