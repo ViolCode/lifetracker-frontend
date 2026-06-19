@@ -11,6 +11,7 @@ export default function EventHistoryPage() {
 
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
 
     async function loadHistory() {
 
@@ -34,6 +35,15 @@ export default function EventHistoryPage() {
         loadHistory();
     }, []);
 
+    const filteredEvents = events.filter(event => {
+        const q = searchQuery.toLowerCase();
+        return (
+            event.title?.toLowerCase().includes(q) ||
+            event.location?.toLowerCase().includes(q) ||
+            event.description?.toLowerCase().includes(q)
+        );
+    });
+
     if (loading) {
         return <div className="p-6">Loading...</div>;
     }
@@ -43,15 +53,25 @@ export default function EventHistoryPage() {
 
             <Header title="Event History" />
 
+            <div className="mb-4">
+                <input
+                    type="text"
+                    placeholder="Search events..."
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+            </div>
+
             <div className="space-y-4 overflow-y-auto pr-2">
 
-                {events.length === 0 && (
+                {filteredEvents.length === 0 && (
                     <p className="text-gray-500">
-                        No past events found.
+                        {searchQuery ? "No events match your search." : "No past events found."}
                     </p>
                 )}
 
-                {events.map(event => (
+                {filteredEvents.map(event => (
                     <HistoryEventCard
                         key={event.id}
                         event={event}
