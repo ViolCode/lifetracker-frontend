@@ -1,5 +1,4 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
 import Header from "../components/Header";
 import EventSection from "../components/EventSection";
 import EventModal from "../components/EventModal";
@@ -27,7 +26,7 @@ export default function SchedulePage() {
         try {
             await removeEvent(event);
         } catch (e) {
-            toast.error(e.message || "Failed to delete event");
+            // error handled silently
         }
     }
 

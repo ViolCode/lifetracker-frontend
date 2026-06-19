@@ -1,18 +1,19 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { api } from "../api/client";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../api/auth";
 
 export default function Sidebar() {
     const user = JSON.parse(localStorage.getItem("user"));
+    const navigate = useNavigate();
 
     async function handleLogout() {
         try {
-            await api("/auth/logout", { method: "POST" });
+            await logout();
         } catch (error) {
-            // Ignore logout errors
+            console.error("Logout error:", error);
         } finally {
             localStorage.removeItem("user");
-            window.location.href = "/login";
+            navigate("/login");
         }
     }
 

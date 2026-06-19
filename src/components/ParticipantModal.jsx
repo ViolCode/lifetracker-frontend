@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
 import { useParticipants } from "../hooks/useParticipants";
-import toast from "react-hot-toast";
 
 export default function ParticipantModal({ event, onClose, onUpdate }) {
     const { participants, loading, load, invite, remove, search } = useParticipants(event.id);
@@ -54,7 +53,6 @@ export default function ParticipantModal({ event, onClose, onUpdate }) {
             setShowDropdown(data.length > 0);
             setSelectedIndex(-1);
         } catch {
-            toast.error("Failed to search users");
             setResults([]);
         } finally {
             setSearching(false);

@@ -2,7 +2,6 @@ import { createEvent, updateEvent } from "../api/events";
 import Modal from "./Modal";
 import EventForm from "./EventForm";
 import { useEventForm } from "../hooks/useEventForm";
-import toast from "react-hot-toast";
 
 export default function EventModal({ existing, onClose, onSaved }) {
     const {
@@ -12,7 +11,6 @@ export default function EventModal({ existing, onClose, onSaved }) {
 
     async function handleSubmit() {
         if (!form.title.trim()) {
-            toast.error("Title is required");
             return;
         }
 
@@ -36,7 +34,7 @@ export default function EventModal({ existing, onClose, onSaved }) {
                 : await createEvent(form);
             await onSaved(saved);
         } catch (e) {
-            toast.error(e.message || "Failed to save event");
+            // error handled silently
         }
     }
 

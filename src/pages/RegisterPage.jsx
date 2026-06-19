@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import toast from "react-hot-toast";
-
 import { register } from "../api/auth";
 
 export default function RegisterPage() {
@@ -28,17 +26,14 @@ export default function RegisterPage() {
         e.preventDefault();
 
         if (!form.name.trim()) {
-            toast.error("Name is required");
             return;
         }
 
         if (!form.email.trim()) {
-            toast.error("Email is required");
             return;
         }
 
         if (form.password.length < 6) {
-            toast.error("Password must be at least 6 characters");
             return;
         }
 
@@ -46,7 +41,6 @@ export default function RegisterPage() {
             form.password !==
             form.confirmPassword
         ) {
-            toast.error("Passwords do not match");
             return;
         }
 
@@ -60,13 +54,10 @@ export default function RegisterPage() {
                     password: form.password,
                 });
 
-            toast.success("Registration successful");
             navigate("/login");
 
         } catch (e) {
-
-            toast.error(e.message);
-
+            // error handled silently
         } finally {
 
             setLoading(false);

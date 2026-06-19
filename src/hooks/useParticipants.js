@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { getParticipants, inviteParticipant, removeParticipant, searchUsers } from "../api/participants";
-import toast from "react-hot-toast";
 
 export function useParticipants(eventId) {
     const [participants, setParticipants] = useState([]);
@@ -12,7 +11,7 @@ export function useParticipants(eventId) {
             const data = await getParticipants(eventId);
             setParticipants(data);
         } catch {
-            toast.error("Failed to load participants");
+            // error handled silently
         } finally {
             setLoading(false);
         }
@@ -21,10 +20,8 @@ export function useParticipants(eventId) {
     async function invite(user) {
         try {
             await inviteParticipant(eventId, user.id);
-            toast.success(`${user.name} added to event`);
             await load();
         } catch (e) {
-            toast.error(e.message || "Failed to add participant");
             throw e;
         }
     }
@@ -32,10 +29,8 @@ export function useParticipants(eventId) {
     async function remove(participant) {
         try {
             await removeParticipant(eventId, participant.userId);
-            toast.success(`${participant.userName} removed`);
             await load();
         } catch (e) {
-            toast.error(e.message || "Failed to remove participant");
             throw e;
         }
     }

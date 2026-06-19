@@ -3,6 +3,7 @@ import {
     Route,
     Navigate,
 } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Layout from "./layout/Layout";
 import LoginPage from "./pages/LoginPage";
@@ -18,6 +19,8 @@ export default function App() {
         !!localStorage.getItem("user");
 
     return (
+        <>
+        <Toaster position="top-right" />
         <Routes>
             <Route path="/" element={
                 <Navigate to={isLoggedIn ? "/schedule" : "/login"} replace/>}
@@ -33,5 +36,6 @@ export default function App() {
                 </Route>
             </Route>
         </Routes>
+        </>
     );
 }

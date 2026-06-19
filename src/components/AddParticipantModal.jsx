@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
 import { searchUsers, inviteParticipant } from "../api/participants";
-import toast from "react-hot-toast";
 
 export default function AddParticipantModal({ event, onClose, onParticipantAdded }) {
     const [searchQuery, setSearchQuery] = useState("");
@@ -46,7 +45,7 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
             setShowDropdown(results.length > 0);
             setSelectedIndex(-1);
         } catch (error) {
-            toast.error("Failed to search users");
+            // error handled silently
         } finally {
             setLoading(false);
         }
@@ -56,14 +55,13 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
         try {
             setLoading(true);
             await inviteParticipant(event.id, user.id);
-            toast.success(`${user.name} has been added to the event`);
             setSearchQuery("");
             setSearchResults([]);
             setShowDropdown(false);
             if (onParticipantAdded) onParticipantAdded();
             onClose();
         } catch (error) {
-            toast.error(error.message);
+            // error handled silently
         } finally {
             setLoading(false);
         }

@@ -11,3 +11,8 @@ export const login = (data) =>
         method: "POST",
         body: JSON.stringify(data),
     });
+
+export const logout = () =>
+    api("/auth/logout", {
+        method: "POST",
+    });

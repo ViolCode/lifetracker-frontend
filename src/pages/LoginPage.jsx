@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import toast from "react-hot-toast";
 import { login } from "../api/auth";
 
 export default function LoginPage() {
@@ -20,13 +19,11 @@ export default function LoginPage() {
             setLoading(true);
             const user = await login(form);
 
-            // Store user info but NOT for authentication - just for display
             localStorage.setItem("user", JSON.stringify(user));
 
-            toast.success("Welcome back");
             navigate("/schedule", { replace: true });
         } catch (e) {
-            toast.error(e.message);
+            // error handled silently
         } finally {
             setLoading(false);
         }
