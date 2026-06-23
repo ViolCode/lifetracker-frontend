@@ -65,7 +65,6 @@ export default function ParticipantModal({ event, onClose, onUpdate }) {
         try {
             setInviting(true);
             await invite(user);
-            toast.success(`${user.name} was added to the event.`);
             setQuery("");
             setResults([]);
             setShowDropdown(false);

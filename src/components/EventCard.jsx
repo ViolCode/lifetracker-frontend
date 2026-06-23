@@ -85,7 +85,7 @@ export default function EventCard({
                             onClick={handleExpensesClick}
                             className="text-sm font-medium text-teal-700 hover:text-teal-900"
                         >
-                            €{event.totalExpenses?.toFixed(2) || "0.00"}
+                            + €{event.totalExpenses?.toFixed(2) || "0.00"}
                         </button>
 
                         {isOwner && (
