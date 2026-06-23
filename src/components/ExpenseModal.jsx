@@ -3,16 +3,29 @@ import ExpenseSection from "./ExpenseSection";
 
 export default function ExpenseModal({event, expenses, loading, onClose, onReload, onCreate})
 {
+    const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+
     return (
         <Modal onClose={onClose}>
             <div className="mb-4">
-                <h2 className="text-xl font-semibold">
-                    Expenses
-                </h2>
+                <div className="flex justify-between items-start">
+                    <div>
+                        <h2 className="text-xl font-semibold">
+                            Expenses
+                        </h2>
 
-                <p className="text-gray-500 text-sm">
-                    {event.title}
-                </p>
+                        <p className="text-gray-500 text-sm">
+                            {event.title}
+                        </p>
+                    </div>
+
+                    <div className="text-right">
+                        <div className="text-xs text-gray-400">Total</div>
+                        <div className="text-lg font-bold text-blue-600">
+                            €{total.toFixed(2)}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <ExpenseSection

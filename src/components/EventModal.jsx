@@ -1,16 +1,17 @@
+import { useState } from "react";
 import { createEvent, updateEvent } from "../api/events";
 import Modal from "./Modal";
 import EventForm from "./EventForm";
 import { useEventForm } from "../hooks/useEventForm";
 
 export default function EventModal({ existing, onClose, onSaved }) {
-    const {
-        form,
-        handleChange,
-    } = useEventForm(existing);
+    const { form, handleChange } = useEventForm(existing);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     async function handleSubmit() {
         if (!form.title.trim()) {
+            setError("Title is required.");
             return;
         }
 
@@ -29,12 +30,19 @@ export default function EventModal({ existing, onClose, onSaved }) {
         }
 
         try {
+            setLoading(true);
+            setError("");
             const saved = existing
                 ? await updateEvent(existing.id, form)
                 : await createEvent(form);
             await onSaved(saved);
         } catch (e) {
-            // error handled silently
+            setError(existing
+                ? `Could not update the event. ${e.message}`
+                : `Could not create the event. ${e.message}`
+            );
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -46,15 +54,22 @@ export default function EventModal({ existing, onClose, onSaved }) {
 
             <EventForm form={form} onChange={handleChange} />
 
+            {error && (
+                <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mt-3">
+                    {error}
+                </p>
+            )}
+
             <div className="flex justify-end gap-2 mt-4">
                 <button onClick={onClose} className="px-4 py-2">
                     Cancel
                 </button>
                 <button
                     onClick={handleSubmit}
-                    className="bg-teal-500 text-white px-4 py-2 rounded"
+                    disabled={loading}
+                    className="bg-teal-500 text-white px-4 py-2 rounded disabled:opacity-50"
                 >
-                    Save
+                    {loading ? "Saving..." : "Save"}
                 </button>
             </div>
         </Modal>

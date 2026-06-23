@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
 import { searchUsers, inviteParticipant } from "../api/participants";
+import toast from "react-hot-toast";
 
 export default function AddParticipantModal({ event, onClose, onParticipantAdded }) {
     const [searchQuery, setSearchQuery] = useState("");
@@ -8,6 +9,7 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
     const [showDropdown, setShowDropdown] = useState(false);
     const [loading, setLoading] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
+    const [searchError, setSearchError] = useState("");
     const dropdownRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -29,6 +31,7 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
             } else {
                 setSearchResults([]);
                 setShowDropdown(false);
+                setSearchError("");
             }
         }, 300);
 
@@ -40,12 +43,15 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
 
         try {
             setLoading(true);
+            setSearchError("");
             const results = await searchUsers(event.id, searchQuery);
             setSearchResults(results);
             setShowDropdown(results.length > 0);
             setSelectedIndex(-1);
         } catch (error) {
-            // error handled silently
+            setSearchError(`Search failed. ${error.message}`);
+            setSearchResults([]);
+            setShowDropdown(false);
         } finally {
             setLoading(false);
         }
@@ -61,7 +67,7 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
             if (onParticipantAdded) onParticipantAdded();
             onClose();
         } catch (error) {
-            // error handled silently
+            toast.error(`Could not add ${user.name} to the event. ${error.message}`);
         } finally {
             setLoading(false);
         }
@@ -149,7 +155,11 @@ export default function AddParticipantModal({ event, onClose, onParticipantAdded
                     </div>
                 )}
 
-                {searchQuery.length >= 2 && !loading && searchResults.length === 0 && (
+                {searchError && (
+                    <div className="mt-2 text-sm text-red-500">{searchError}</div>
+                )}
+
+                {!searchError && searchQuery.length >= 2 && !loading && searchResults.length === 0 && (
                     <div className="mt-2 text-sm text-gray-500">
                         No users found matching "{searchQuery}"
                     </div>

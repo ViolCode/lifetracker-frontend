@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getEvents, deleteEvent } from "../api/events";
 import { getParticipants } from "../api/participants";
+import toast from "react-hot-toast";
 
 export function useScheduleData() {
     const [events, setEvents] = useState([]);
@@ -15,15 +16,14 @@ export function useScheduleData() {
                     try {
                         const participants = await getParticipants(event.id);
                         return { ...event, participants };
-                    } catch (error) {
-                        console.error(`Failed to load participants for event ${event.id}`, error);
+                    } catch {
                         return { ...event, participants: [] };
                     }
                 })
             );
             setEvents(eventsWithParticipants);
         } catch (error) {
-            console.error("Failed to load events", error);
+            toast.error(`Could not load your schedule. ${error.message}`);
         } finally {
             setLoading(false);
         }

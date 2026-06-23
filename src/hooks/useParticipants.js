@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getParticipants, inviteParticipant, removeParticipant, searchUsers } from "../api/participants";
+import toast from "react-hot-toast";
 
 export function useParticipants(eventId) {
     const [participants, setParticipants] = useState([]);
@@ -10,8 +11,8 @@ export function useParticipants(eventId) {
             setLoading(true);
             const data = await getParticipants(eventId);
             setParticipants(data);
-        } catch {
-            // error handled silently
+        } catch (e) {
+            toast.error(`Could not load participants. ${e.message}`);
         } finally {
             setLoading(false);
         }

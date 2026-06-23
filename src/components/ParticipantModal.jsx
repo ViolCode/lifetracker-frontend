@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
 import { useParticipants } from "../hooks/useParticipants";
+import toast from "react-hot-toast";
 
 export default function ParticipantModal({ event, onClose, onUpdate }) {
     const { participants, loading, load, invite, remove, search } = useParticipants(event.id);
@@ -52,7 +53,8 @@ export default function ParticipantModal({ event, onClose, onUpdate }) {
             setResults(data);
             setShowDropdown(data.length > 0);
             setSelectedIndex(-1);
-        } catch {
+        } catch (e) {
+            toast.error(`Search failed. ${e.message}`);
             setResults([]);
         } finally {
             setSearching(false);
@@ -63,12 +65,13 @@ export default function ParticipantModal({ event, onClose, onUpdate }) {
         try {
             setInviting(true);
             await invite(user);
+            toast.success(`${user.name} was added to the event.`);
             setQuery("");
             setResults([]);
             setShowDropdown(false);
             if (onUpdate) onUpdate();
-        } catch {
-            // toast shown by hook
+        } catch (e) {
+            toast.error(`Could not add ${user.name}. ${e.message}`);
         } finally {
             setInviting(false);
         }
@@ -80,8 +83,8 @@ export default function ParticipantModal({ event, onClose, onUpdate }) {
             setRemovingId(participant.userId);
             await remove(participant);
             if (onUpdate) onUpdate();
-        } catch {
-            // toast shown by hook
+        } catch (e) {
+            toast.error(`Could not remove ${participant.userName}. ${e.message}`);
         } finally {
             setRemovingId(null);
         }

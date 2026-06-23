@@ -10,6 +10,7 @@ import { getTodayLabel, getTomorrowLabel } from "../utils/format";
 import { useScheduleData } from "../hooks/useScheduleData";
 import { useExpenseManager } from "../hooks/useExpenseManager";
 import { useEventModal } from "../hooks/useEventModal";
+import toast from "react-hot-toast";
 
 export default function SchedulePage() {
     const [weekOffset, setWeekOffset] = useState(0);
@@ -25,8 +26,9 @@ export default function SchedulePage() {
         if (!window.confirm(`Delete "${event.title}"?`)) return;
         try {
             await removeEvent(event);
+            toast.success("Event deleted.");
         } catch (e) {
-            // error handled silently
+            toast.error(`Could not delete "${event.title}". ${e.message}`);
         }
     }
 

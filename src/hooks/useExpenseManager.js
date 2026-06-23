@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getExpenses, createExpense } from "../api/expenses";
+import toast from "react-hot-toast";
 
 export function useExpenseManager(onExpenseCreated) {
     const [showExpenses, setShowExpenses] = useState(false);
@@ -15,29 +16,25 @@ export function useExpenseManager(onExpenseCreated) {
             setExpenseEvent(event);
             setShowExpenses(true);
         } catch (error) {
-            // error handled silently
+            toast.error(`Could not load expenses for "${event.title}". ${error.message}`);
         } finally {
             setLoading(false);
         }
     }
 
     async function reloadExpenses() {
-        if (!expenseEvent) {
-            return;
-        }
+        if (!expenseEvent) return;
 
         try {
             const data = await getExpenses(expenseEvent.id);
             setExpenses(data);
         } catch (error) {
-            // error handled silently
+            toast.error(`Could not refresh the expense list. ${error.message}`);
         }
     }
 
     async function addExpense(data) {
-        if (!expenseEvent) {
-            return;
-        }
+        if (!expenseEvent) return;
 
         try {
             setLoading(true);
@@ -46,11 +43,11 @@ export function useExpenseManager(onExpenseCreated) {
                 ...data,
             });
             await reloadExpenses();
-            if (onExpenseCreated) {
-                await onExpenseCreated();
-            }
+            if (onExpenseCreated) await onExpenseCreated();
+            toast.success("Expense added.");
         } catch (e) {
-            // error handled silently
+            toast.error(`Could not add the expense. ${e.message}`);
+            throw e;
         } finally {
             setLoading(false);
         }
